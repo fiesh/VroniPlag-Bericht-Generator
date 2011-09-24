@@ -28,7 +28,7 @@ require 'loadParameters.php';
 ?>
 \title{<?php print $TITEL1;?>}
 \subtitle{<?php print $TITEL2;?>}
-\publishers{\url{<?php print 'http://de.vroniplag.wikia.com/'.NAME_PREFIX.'/Berich';?>}}
+\publishers{\url{<?php print 'http://de.vroniplag.wikia.com/'.NAME_PREFIX.'/Bericht';?>}}
 
 \hypersetup{%
         pdfauthor={VroniPlag},%
