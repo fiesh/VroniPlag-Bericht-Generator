@@ -10,12 +10,6 @@
 #
 
 define('NAME_PREFIX', 'Dv');
-define('TITEL1', 'Bericht');
-define('TITEL2', 'Gemeinschaftliche Dokumentation von Plagiaten in der Dissertation „Verfassung und Verfassungsvertrag: Konstitutionelle Entwicklungsstufen in den USA und der EU“ von Karl-Theodor Freiherr zu Guttenberg');
-define('URL', 'http://de.guttenplag.wikia.com/wiki/Abschlussbericht');
-
-define('BERICHT', FALSE); // Liste nur Fragmente auf
-#define('BERICHT', 'Dv/Bericht'); // Verwende diese Seite als Bericht.  Alles von dieser Seite, was nach dem String "BEGIN_BERICHT" kommt, wird dann als Bericht ins PDF integriert
 
 #
 # SORT_BY_CATEGORY legt fest, ob die Fragmente einfach nach Seitenzahl sortiert

@@ -1,4 +1,4 @@
-\documentclass[ngerman,final,fontsize=12pt,paper=a4,twoside,bibliography=totoc,BCOR=8mm,draft=false]{scrreprt}
+\documentclass[ngerman,final,fontsize=12pt,paper=a4,twoside,bibliography=totoc,BCOR=8mm,draft=false]{scrartcl}
 
 \usepackage[T1]{fontenc}
 \usepackage[ngerman]{babel}
@@ -24,14 +24,15 @@
 
 <?php
 require 'config.php';
+require 'loadParameters.php';
 ?>
-\title{<?php print TITEL1;?>}
-\subtitle{<?php print TITEL2;?>}
-\publishers{\url{<?php print URL;?>}}
+\title{<?php print $TITEL1;?>}
+\subtitle{<?php print $TITEL2;?>}
+\publishers{\url{<?php print 'http://de.vroniplag.wikia.com/'.NAME_PREFIX.'/Berich';?>}}
 
 \hypersetup{%
         pdfauthor={VroniPlag},%
-	pdftitle={<?php print TITEL1.' --- '.TITEL2;?>}%
+	pdftitle={<?php print $TITEL1.' --- '.$TITEL2;?>}%
         pdflang={en},%
         pdfduplex={DuplexFlipLongEdge},%
         pdfprintscaling={None},%
@@ -90,7 +91,7 @@ if($abEnableLinkColors === 'yes') {
 		\vfill%
 	}}}
 
-\setkomafont{chapter}{\Large}
+%\setkomafont{chapter}{\Large}
 \setkomafont{section}{\large}
 \addtokomafont{disposition}{\normalfont\boldmath\bfseries}
 \urlstyle{rm}
@@ -117,15 +118,15 @@ if($abLinks === 'color+underline') {
 %\ClearShipoutPicture
 
 \tableofcontents
+\newpage
 
 <?php require_once('importWiki.php'); ?>
 
 \appendix
-\chapter{Textnachweise}
+\section{Textnachweise}
 
 <?php require_once('importFragmente.php'); ?>
 \renewcommand{\bibname}{Quellenverzeichnis}
-\newpage
 \bibliographystyle{dinat-custom}
 \bibliography{ab}
 \end{document}

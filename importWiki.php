@@ -1,8 +1,6 @@
 <?php
 
 require_once('config.php');
-if(BERICHT === FALSE)
-	return;
 
 require_once('korrekturen.php');
 
@@ -23,14 +21,15 @@ $cache = unserialize(file_get_contents('cache'));
 
 $content = $cache['static'];
 
+$content = preg_replace('/{{Bericht[^}]*}}/', '', $content);
 $content = preg_replace('/.*BEGIN_BERICHT/s', '', $content);
 
 // references
 $content = korrStringWithLinks($content, true, true, true);
 
-$content = preg_replace('/===\s*([^=]+?)\s*===/s', '\section{$1}', $content);
+$content = preg_replace('/===\s*([^=]+?)\s*===/s', '\subsection{$1}', $content);
 
-$content = preg_replace('/==\s*([^=]+?)\s*==/s', '\chapter{$1}', $content);
+$content = preg_replace('/==\s*([^=]+?)\s*==/s', '\section{$1}', $content);
 
 $content = korrWikiFontStyles($content);
 

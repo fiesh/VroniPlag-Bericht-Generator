@@ -4,26 +4,6 @@ require_once('config.php');
 require_once('WikiLoader.php');
 
 class BibliographyLoader {
-
-	static private function parseSource($rawText)
-	{
-		if(preg_match_all('/{{Quelle(.*)}}/s', $rawText, $matches) === 1) {
-			$text = $matches[1][0];
-			preg_match_all('/|\s*(\w+)\s*=\s*([^|]+)/', $text, $matches);
-			$i = 0;
-			$source = array();
-			while(isset($matches[1][$i])) {
-				if($matches[1][$i]) {
-					$source[$matches[1][$i]] = trim(html_entity_decode($matches[2][$i], ENT_QUOTES, 'UTF-8'));
-				}
-				$i++;
-			}
-			return $source;
-		} else {
-			return false;
-		}
-	}
-
 	static public function getSources(&$ignored = array())
 	{
 		$pageids = WikiLoader::getCategoryMembers('Kategorie:'.NAME_PREFIX.'/Quelle');
@@ -31,7 +11,7 @@ class BibliographyLoader {
 
 		$sources = array();
 		foreach($entries as $entry) {
-			$source = self::parseSource($entry['revisions'][0]['*']);
+			$source = WikiLoader::parseSource($entry['revisions'][0]['*'], 'Quelle');
 			if ($source !== false) {
 				$source['title'] = $entry['title'];
 				$sources[] = $source;
