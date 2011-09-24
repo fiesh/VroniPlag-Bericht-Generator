@@ -22,8 +22,7 @@
 #     Kategorie gespeichert.
 #
 #   $cache['static'] =
-#     Einleitung und Hauptteil des Abschlussberichts, im Wikitext-Format,
-#     sofern BERICHT !== FALSE
+#     Einleitung und Hauptteil des Abschlussberichts, im Wikitext-Format
 #
 #   $cache['ignored'] =
 #     Assoziatives Array:
@@ -62,11 +61,9 @@ $cache['sources'] = BibliographyLoader::getSources($ignoredSources);
 print "fertig!\n";
 
 # Entwurf laden
-if(BERICHT !== FALSE) {
-	print "Lade Entwurf... "; flush();
-	$cache['static'] = WikiLoader::getRawTextByTitle(NAME_PREFIX.'/'.BERICHT);
-	print "fertig!\n";
-}
+print "Lade Entwurf... "; flush();
+$cache['static'] = WikiLoader::getRawTextByTitle(NAME_PREFIX.'/Bericht');
+print "fertig!\n";
 
 # Ignorierte Eintraege speichern
 $cache['ignored']['fragments'] = $ignoredFragments;
