@@ -107,20 +107,17 @@ function korrStringWithLinks($s, $doTrim=true, $stuffIntoFootnotes=false, $enabl
 	foreach(preg_split('/(\[\[.+?\]\]|\['.$schemeRegex.'[^][{}<>"\\x00-\\x08\\x0a-\\x1F]+\]|'.$schemeRegex.'[^][{}<>"\\x00-\\x20\\x7F]+'.$refRegex.')/s', $s, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE) as $part) {
 		if(preg_match('/^\[\[([^|]+)\]\]$/', $part, $match)) {
 			// interne Links ohne Linktext
-			$result .= '\hyperlink{'.titleToKey($match[1]).'}{'.korrString($match[1]).'}';
-
+			$result .= '\url{'.urlToTex($match[1]).'}';
 		} else if(preg_match('/^\[\[(.+?)\|(.+)\]\]$/', $part, $match)) {
 			// interne Links mit Linktext
-			$result .= '\hyperlink{'.titleToKey($match[1]).'}{'.korrString($match[2]).'}';
-
+			if($stuffIntoFootnotes) {
+				$result .= korrString($match[2]).'\footnote{\url{http://de.vroniplag.wikia.com/wiki/'.urlToTex($match[1]).'}}';
+			} else {
+				$result .= '\href{http://de.vroniplag.wikia.com/wiki/'.urlToTex($match[1]).'}{'.korrString($match[2]).'}';
+			}
 		} else if(preg_match('/^'.$schemeRegex.'/s', $part, $match)) {
 			// externe Links ohne Linktext
-			if($stuffIntoFootnotes) {
-				$result .= '\footnote{\url{'.urlToTex($part).'}}';
-			} else {
-				$result .= '\url{'.urlToTex($part).'}';
-			}
-
+			$result .= '\url{'.urlToTex($part).'}';
 		} else if(preg_match('/^\[('.$schemeRegex.'[^][{}<>"\\x00-\x20\\x7F]+) *([^\]\\x00-\\x08\\x0A-\\x1F]*)?\]$/s', $part, $match)) {
 			if(isset($match[2]) && trim($match[2])) {
 				// externe Links mit Linktext
@@ -130,12 +127,7 @@ function korrStringWithLinks($s, $doTrim=true, $stuffIntoFootnotes=false, $enabl
 					$result .= '\href{'.urlToTex($match[1]).'}{'.korrString($match[2]).'}';
 				}
 			} else {
-				// externe Links ohne Linktext
-				if($stuffIntoFootnotes) {
-					$result .= '\footnote{\url{'.urlToTex($match[1]).'}}';
-				} else {
-					$result .= '\url{'.urlToTex($match[1]).'}';
-				}
+				$result .= '\url{'.urlToTex($match[1]).'}';
 			}
 
 		} else if($enableRef && preg_match('/^<ref>(.*)<\/ref>$/s', $part, $match)) {

@@ -1,4 +1,4 @@
-\documentclass[ngerman,final,fontsize=12pt,paper=a4,twoside,bibliography=totoc,BCOR=8mm,draft=false]{scrartcl}
+\documentclass[ngerman,final,fontsize=12pt,paper=a4,twoside,bibliography=totocnumbered,BCOR=8mm,draft=false]{scrartcl}
 
 \usepackage[T1]{fontenc}
 \usepackage[ngerman]{babel}
@@ -126,7 +126,7 @@ if($abLinks === 'color+underline') {
 \section{Textnachweise}
 
 <?php require_once('importFragmente.php'); ?>
-\renewcommand{\bibname}{Quellenverzeichnis}
 \bibliographystyle{dinat-custom}
+\renewcommand{\refname}{Quellenverzeichnis}
 \bibliography{ab}
 \end{document}

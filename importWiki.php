@@ -21,11 +21,18 @@ $cache = unserialize(file_get_contents('cache'));
 
 $content = $cache['static'];
 
+// Bericht Box entfernen
 $content = preg_replace('/{{Bericht[^}]*}}/', '', $content);
+// Infobox entfernen
+$content = preg_replace('/{{Infobox[^}]*}}/', '', $content);
+// Alles bevor BEGIN_BERICHT entfernen
 $content = preg_replace('/.*BEGIN_BERICHT/s', '', $content);
+// Kategorien am Ende entfernen
+$content = preg_replace('/\[\[Kategorie:[^]|]*\]\]/', '', $content);
+
 
 // references
-$content = korrStringWithLinks($content, true, true, true);
+$content = korrStringWithLinks($content, true, STUFFINTOFOOTNOTES, false);
 
 $content = preg_replace('/===\s*([^=]+?)\s*===/s', '\subsection{$1}', $content);
 

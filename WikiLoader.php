@@ -187,7 +187,7 @@ class WikiLoader {
 
 	static public function parseSource($rawText, $prefix)
 	{
-		if(preg_match_all('/{{'.$prefix.'(.*)}}/s', $rawText, $matches) === 1) {
+		if(preg_match_all('/{{'.$prefix.'([^}]*)}}/s', $rawText, $matches) === 1) {
 			$text = $matches[1][0];
 			preg_match_all('/|\s*(\w+)\s*=\s*([^|]+)/', $text, $matches);
 			$i = 0;

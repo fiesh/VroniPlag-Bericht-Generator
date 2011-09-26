@@ -18,6 +18,12 @@ define('NAME_PREFIX', 'Dv');
 define('SORT_BY_CATEGORY', FALSE);
 
 #
+# Falls STUFFINTOFOOTNOTES gesetzt ist, werden links generell nicht im Fliesstext
+# integriert, sondern in eine Fussnote ausgelagert.
+#
+define('STUFFINTOFOOTNOTES', FALSE);
+
+#
 # $categoryBlacklist listet alle Kategorien auf, die ausgeschlossen werden sollen.
 # An sich unnoetig, da danach eine Whitelist folgt, gibt aber schoeneren output.
 #
