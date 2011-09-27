@@ -34,7 +34,7 @@ require 'loadParameters.php';
 
 \hypersetup{%
         pdfauthor={VroniPlag},%
-	pdftitle={<?php print $TITEL1.' --- '.$TITEL2;?>},%
+	pdftitle={<?php print $TITEL1.' -- '.$TITEL2;?>},%
         pdflang={en},%
         pdfduplex={DuplexFlipLongEdge},%
         pdfprintscaling={None},%
