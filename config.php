@@ -12,6 +12,12 @@
 define('NAME_PREFIX', 'Dv');
 
 #
+# BERICHT_SEITE legt den Namen der Wiki Seite im Namensraum NAME_PREFIX fest,
+# aus der der Bericht gebaut werden soll.
+#
+define('BERICHT_SEITE', 'Bericht');
+
+#
 # SORT_BY_CATEGORY legt fest, ob die Fragmente einfach nach Seitenzahl sortiert
 # angehaengt werden, oder ob erst eine Aufteilung nach Plagiatstyp erfolgt
 #
