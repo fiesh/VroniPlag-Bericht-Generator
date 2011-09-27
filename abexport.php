@@ -20,6 +20,8 @@
 %\usepackage[spacing=true,tracking=true,kerning=true,babel]{microtype}
 \usepackage[spacing=true,kerning=true,babel]{microtype}
 
+%\setparsizes{1em}{.5\baselineskip}{0pt plus 1fil}
+
 \author{VroniPlag} 
 
 <?php
@@ -32,7 +34,7 @@ require 'loadParameters.php';
 
 \hypersetup{%
         pdfauthor={VroniPlag},%
-	pdftitle={<?php print $TITEL1.' --- '.$TITEL2;?>}%
+	pdftitle={<?php print $TITEL1.' --- '.$TITEL2;?>},%
         pdflang={en},%
         pdfduplex={DuplexFlipLongEdge},%
         pdfprintscaling={None},%
@@ -80,7 +82,7 @@ if($abEnableLinkColors === 'yes') {
 	 \penalty-200
 	 \vskip 0pt plus 10mm minus 5mm}
 \newenvironment{fragmentpart}[1]
-	{\indent\textbf{#1}\par\penalty500\noindent}
+	{\noindent\textbf{#1}\par\penalty500}
 	{\par}
 \newcommand{\BackgroundPic}
 	{\put(0,0){\parbox[b][\paperheight]{\paperwidth}{%
