@@ -102,18 +102,28 @@ function korrStringWithLinks($s, $doTrim=true, $stuffIntoFootnotes=false, $enabl
 	$result = '';
 	$prots = 'http|https|ftp';
 	$schemeRegex = '(?:(?:'.$prots.'):\/\/)';
+	$fragmentRegex = NAME_PREFIX.'\/Fragment[_ ]\d\d\d[_ ]\d\d';
 	$refRegex = $enableRef ? '|<ref>.*?<\/ref>' : '';
 	//if ($enableRef) print "enableRef\n";
 	foreach(preg_split('/(\[\[.+?\]\]|\['.$schemeRegex.'[^][{}<>"\\x00-\\x08\\x0a-\\x1F]+\]|'.$schemeRegex.'[^][{}<>"\\x00-\\x20\\x7F]+'.$refRegex.')/s', $s, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE) as $part) {
 		if(preg_match('/^\[\[([^|]+)\]\]$/', $part, $match)) {
 			// interne Links ohne Linktext
-			$result .= '\url{'.urlToTex($match[1]).'}';
+			if(preg_match('/'.$fragmentRegex.'/', $match[1])) {
+				// Link auf Fragment intern handhaben
+				$result .= '\hyperlink{'.titleToKey($match[1]).'}{'.$match[1].'}';
+			} else {
+				$result .= '\url{http://de.vroniplag.wikia.com/wiki/'.urlToTex($match[1]).'}';
+			}
 		} else if(preg_match('/^\[\[(.+?)\|(.+)\]\]$/', $part, $match)) {
 			// interne Links mit Linktext
-			if($stuffIntoFootnotes) {
-				$result .= korrString($match[2]).'\footnote{\url{http://de.vroniplag.wikia.com/wiki/'.urlToTex($match[1]).'}}';
+			if(preg_match('/'.$fragmentRegex.'/', $match[1])) {
+				$result .= '\hyperlink{'.titleToKey($match[1]).'}{'.$match[2].'}';
 			} else {
-				$result .= '\href{http://de.vroniplag.wikia.com/wiki/'.urlToTex($match[1]).'}{'.korrString($match[2]).'}';
+				if($stuffIntoFootnotes) {
+					$result .= korrString($match[2]).'\footnote{\url{http://de.vroniplag.wikia.com/wiki/'.urlToTex($match[1]).'}}';
+				} else {
+					$result .= '\href{http://de.vroniplag.wikia.com/wiki/'.urlToTex($match[1]).'}{'.korrString($match[2]).'}';
+				}
 			}
 		} else if(preg_match('/^'.$schemeRegex.'/s', $part, $match)) {
 			// externe Links ohne Linktext
@@ -158,7 +168,7 @@ function korrWikiFontStyles($s)
 function korrFragmentText($s)
 {
 	$s = trim($s);
-	$s = korrStringWithLinks($s);
+	$s = korrString($s);
 	$s = korrWikiFontStyles($s);
 	return ($s != '') ? $s : '---';
 }
