@@ -166,10 +166,18 @@ function korrWikiFontStyles($s)
 	return $s;
 }
 
+// {{highlight|...|...}} entfernen
+function removeHighlights($s)
+{
+	$s = preg_replace('/{{highlight\|[^\|]*\|([^}]*)}}/', '$1', $s);
+	return $s;
+}
+
 // Dissertation und Original eines Fragments korrigieren
 function korrFragmentText($s)
 {
 	$s = trim($s);
+	$s = removeHighlights($s);
 	$s = korrString($s);
 	$s = korrWikiFontStyles($s);
 	return ($s != '') ? $s : '---';
