@@ -1,0 +1,4 @@
+\select@language {ngerman}
+\contentsline {section}{\numberline {1}Einleitung}{2}{section.1}
+\contentsline {section}{\numberline {A}Textnachweise}{2}{appendix.A}
+\contentsline {section}{\numberline {B}Quellenverzeichnis}{80}{appendix.B}

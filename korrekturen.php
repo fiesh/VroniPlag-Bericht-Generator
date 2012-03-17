@@ -112,14 +112,14 @@ function korrStringWithLinks($s, $doTrim=true, $stuffIntoFootnotes=false, $enabl
 			// interne Links ohne Linktext
 			if(preg_match('/'.$fragmentRegex.'/', $match[1])) {
 				// Link auf Fragment intern handhaben
-				$result .= '\hyperlink{'.titleToKey($match[1]).'}{'.$match[1].'}';
+				$result .= '\hyperlink{'.titleToKey($match[1]).'}{'.korrString($match[1]).'}';
 			} else {
 				$result .= '\url{http://de.vroniplag.wikia.com/wiki/'.urlToTex($match[1]).'}';
 			}
 		} else if(preg_match('/^\[\[(.+?)\|(.+)\]\]$/', $part, $match)) {
 			// interne Links mit Linktext
 			if(preg_match('/'.$fragmentRegex.'/', $match[1])) {
-				$result .= '\hyperlink{'.titleToKey($match[1]).'}{'.$match[2].'}';
+				$result .= '\hyperlink{'.titleToKey($match[1]).'}{'.korrString($match[2]).'}';
 			} else {
 				if($stuffIntoFootnotes) {
 					$result .= korrString($match[2]).'\footnote{\url{http://de.vroniplag.wikia.com/wiki/'.urlToTex($match[1]).'}}';

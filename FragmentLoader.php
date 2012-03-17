@@ -7,14 +7,13 @@ class FragmentLoader {
 	static private function processString($s)
 	{
 		$needle = 'val_\d+="([^"]*)"';
-		if (preg_match_all("/$needle/", $s, $match) >= 11) {
-			for($i = 0; $i < 11; $i++) {
+		if (preg_match_all("/$needle/", $s, $match) >= 10) {
+			for($i = 0; $i < 10; $i++) {
 				$a[$i+1] = trim(html_entity_decode($match[1][$i], ENT_QUOTES, 'UTF-8'));
 			}
 			return $a;
-		} else {
+		} else
 			return false;
-		}
 	}
 
 	static private function collectCategories($entry)
@@ -39,7 +38,7 @@ class FragmentLoader {
 				$a['categories'] = self::collectCategories($e);
 				$fragments[] = $a;
 			} else {
-				$ignored[] = $e['title'];
+				$ignored[$e['title']] = $e['revisions'][0]['*'];
 			}
 		}
 		return $fragments;
@@ -49,28 +48,6 @@ class FragmentLoader {
 	{
 		$entries = WikiLoader::getEntriesWithPrefix(NAME_PREFIX.'/Fragment ', true, true);
 		return self::processFrags($entries, $ignored);
-	}
-
-	static public function getFragmentsG2006(&$ignored = array())
-	{
-		$entries = WikiLoader::getEntriesWithPrefix('Guttenberg-2006/', true, true);
-		$fragmentTitles = array();
-		foreach($entries as $e) {
-			if(preg_match('/^Guttenberg-2006\/(\d{3})$/', $e['title'], $match) && $match[1] >= 1) {
-				$pagenum = (int) $match[1];
-				$raw = $e['revisions'][0]['*'];
-				$raw = preg_replace('/<!--.*?-->/s', '', $raw);
-				preg_match_all('/\{\{:([- _A-Za-z0-9\/]*?)\}\}/', $raw, $match);
-				$i = 0;
-				while(isset($match[1][$i])) {
-					$fragmentTitles[] = str_replace('_', ' ', $match[1][$i]);
-					++$i;
-				}
-			}
-		}
-
-		$fragmentEntries = WikiLoader::getEntriesByTitles($fragmentTitles);
-		return self::processFrags($fragmentEntries, $ignored);
 	}
 
 	static private function parseFragmentType($rawText)

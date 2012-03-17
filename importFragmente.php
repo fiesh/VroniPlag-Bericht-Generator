@@ -11,8 +11,8 @@ if(!file_exists('cache')) {
 $cache = unserialize(file_get_contents('cache'));
 
 # Liste ignorierter Fragmente/Plagiatskategorien/Quellen anzeigen
-foreach($cache['ignored']['fragments'] as $title) {
-	print "%XXX: Ignoriere Fragment: $title\n";
+foreach($cache['ignored']['fragments'] as $title => $reason) {
+	print "%XXX: Ignoriere Fragment: $title: $reason\n";
 }
 foreach($cache['ignored']['fragmenttypes'] as $title) {
 	print "%XXX: Ignoriere Plagiatskategorie: $title\n";
@@ -97,7 +97,7 @@ foreach($cache['fragments'] as $f) {
 	$list[$i]['seitefund'] = $f[4];
 	$list[$i]['zeilenfund'] = $f[5];
 	$list[$i]['orig'] = $f[6];
-	$list[$i]['anmerkung'] = $f[10];
+	$list[$i]['anmerkung'] = $f[9];
 	$list[$i]['kategorie'] = $currentTypeTitle;
 	$list[$i]['inLit'] = $sources[$currentSourceTitle]['InLit'];
 	$list[$i]['inFN'] = $sources[$currentSourceTitle]['InFN'];

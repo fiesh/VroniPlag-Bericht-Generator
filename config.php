@@ -9,7 +9,7 @@
 # und einen gueltigen Wert haben, sonst funktioniert der AB-Generator nicht.
 #
 
-define('NAME_PREFIX', 'Dv');
+define('NAME_PREFIX', 'Lm');
 
 #
 # BERICHT_SEITE legt den Namen der Wiki Seite im Namensraum NAME_PREFIX fest,
