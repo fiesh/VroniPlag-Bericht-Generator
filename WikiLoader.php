@@ -121,8 +121,11 @@ class WikiLoader {
 	static public function getRawTextByTitle($title)
 	{
 		$s = self::queryEntriesByTitles(array($title));
+		if(!isset($s['query']['pages']))
+			return false;
 		foreach ($s['query']['pages'] as $page)
-			return $page['revisions'][0]['*'];
+			if(isset($page['revisions'][0]['*']))
+				return $page['revisions'][0]['*'];
 		return false;
 	}
 

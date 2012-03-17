@@ -18,6 +18,11 @@ define('NAME_PREFIX', 'Dv');
 define('BERICHT_SEITE', 'Bericht/Entwurf');
 
 #
+# Falls noch kein Bericht angelegt wurde, wird folgendes generisches layout verwendet
+#
+define('BLANKBERICHT', "{{Bericht\n|Titel1 = Gemeinschaftlicher Bericht\n|Titel2 = Dokumentation von Plagiaten in der Dissertation „Test“ von Max Mustermann, Wakaluba, 2012\n}}\n==Einleitung==\nDie ist ein Testbericht");
+
+#
 # SORT_BY_CATEGORY legt fest, ob die Fragmente einfach nach Seitenzahl sortiert
 # angehaengt werden, oder ob erst eine Aufteilung nach Plagiatstyp erfolgt
 #
