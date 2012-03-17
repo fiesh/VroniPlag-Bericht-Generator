@@ -1,5 +1,7 @@
 <?php
 
+require_once('config.php');
+
 // Seiten korrigieren
 function korrBereich($s)
 {
