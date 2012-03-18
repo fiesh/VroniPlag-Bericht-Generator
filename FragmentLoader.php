@@ -9,7 +9,7 @@ class FragmentLoader {
 		$needle = 'val_\d+="([^"]*)"';
 		if (preg_match_all("/$needle/", $s, $match) >= 10) {
 			for($i = 0; $i < 10; $i++) {
-				$a[$i+1] = trim(html_entity_decode($match[1][$i], ENT_QUOTES, 'UTF-8'));
+				$a[$i+1] = trim(html_entity_decode(html_entity_decode($match[1][$i], ENT_QUOTES, 'UTF-8'), ENT_QUOTES, 'UTF-8')); // Do this once and it doesn't work... hurray php?!
 			}
 			return $a;
 		} else
