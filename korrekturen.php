@@ -52,6 +52,8 @@ function korrStringWiki($s, $doTrim=true)
 			']',
 			'~',
 			'−',
+			'\.\.\.',
+			'&nbsp;',
 		), array(
 			'\textquotedbl{}',
 			'--',
@@ -74,6 +76,8 @@ function korrStringWiki($s, $doTrim=true)
 			'$]$',
 			'\~{}',
 			'---',
+			'\ldots',
+			'~',
 		), $s);
 
 	$s = korrDash($s);
@@ -86,16 +90,26 @@ function korrStringWiki($s, $doTrim=true)
 
 function korrString($s, $doTrim=true)
 {
-	$s = str_replace(array(
-			'\\',
-			'{',
-			'}',
-		), array(
-			'\backslash ',
-			'\{',
-			'\}',
-		), $s);
-	return korrStringWiki($s, $doTrim);
+	$result = '';
+	foreach(preg_split('/(<math>.*?<\/math>)/s', $s, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE) as $part) {
+		if(preg_match('/<math>(.*?)<\/math>/s', $part, $match)) {
+			$result .= '$'.korrMath($match[1]).'$';
+		} else {
+			$r = str_replace(array(
+				'\\',
+				'{',
+				'}',
+			), array(
+				'\backslash ',
+				'\{',
+				'\}',
+			), $part);
+			$result .= korrStringWiki($r, false);
+		}
+	}
+	if($doTrim)
+		$result = trim($result);
+	return $result;
 }
 
 // wie korrString, aber externe Links in Anmerkung mit @url umfassen
@@ -145,7 +159,6 @@ function korrStringWithLinks($s, $doTrim=true, $stuffIntoFootnotes=false, $enabl
 		} else if($enableRef && preg_match('/^<ref>(.*)<\/ref>$/s', $part, $match)) {
 			// <ref>...</ref>
 			$result .= '\footnote{' . korrStringWithLinks($match[1], false, false, false) . '}';
-
 		} else {
 			$result .= korrString($part, false);
 		}
@@ -163,6 +176,13 @@ function korrWikiFontStyles($s)
 	$s = preg_replace('/\'\'\'([^\']*)\'\'\'/s', '\textbf{$1}', $s);
 	$s = preg_replace('/\'\'([^\']*)\'\'/s', '\textsl{$1}', $s);
 	$s = preg_replace(';<u>([^<]*)</u>;s', '\underline{$1}', $s);
+	return $s;
+}
+
+// convert to LaTeX math
+function korrMath($s)
+{
+	$s = preg_replace(';<math>(.*?)</math>;s', '$$1$', $s);
 	return $s;
 }
 
