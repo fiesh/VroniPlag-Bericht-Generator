@@ -31,6 +31,7 @@ function korrStringWiki($s, $doTrim=true)
 {
 	//$s = preg_replace('/"([^"]+)"/', '"`$1"\'', $s); // Anfuehrungszeichen lassen sich nicht korrekt reparieren.
 	$s = str_replace(array(
+			'----',
 			'"',
 			'&',
 			'#',
@@ -44,15 +45,16 @@ function korrStringWiki($s, $doTrim=true)
 			'ﬂ',
 			'→',
 			'°',
-			'‑',
+			'−',
 			'­',
 			'$',
 			'[',
 			']',
 			'~',
-			'−',
+			'‑',
 			'\.\.\.',
 		), array(
+			'',
 			'\textquotedbl{}',
 			'\&',
 			'\#',
@@ -66,13 +68,13 @@ function korrStringWiki($s, $doTrim=true)
 			'fl',
 			'\textrightarrow{}',
 			'o',
-			'---',
+			'--',
 			'-',
 			'\$',
 			'$[$',
 			'$]$',
 			'\~{}',
-			'---',
+			'--',
 			'\ldots',
 		), $s);
 
@@ -166,12 +168,14 @@ function korrStringWithLinks($s, $doTrim=true, $stuffIntoFootnotes=false, $enabl
 	return $result;
 }
 
-// konvertiert Wiki-Formatierung ('''...''', ''...'', <u>...</u>) nach LaTeX
+// konvertiert Wiki-Formatierung ('''...''', ''...'', <u>...</u>, <i>...</i>, <b>...</b>) nach LaTeX
 function korrWikiFontStyles($s)
 {
-	$s = preg_replace('/\'\'\'([^\']*)\'\'\'/s', '\textbf{$1}', $s);
-	$s = preg_replace('/\'\'([^\']*)\'\'/s', '\textsl{$1}', $s);
-	$s = preg_replace(';<u>([^<]*)</u>;s', '\underline{$1}', $s);
+	$s = preg_replace('/\'\'\'(.*?)\'\'\'/s', '\textbf{$1}', $s);
+	$s = preg_replace('/\'\'(.*?)\'\'/s', '\textsl{$1}', $s);
+	$s = preg_replace(';<u>(.*?)</u>;s', '\underline{$1}', $s);
+	$s = preg_replace(';<i>(.*?)</i>;s', '\textsl{$1}', $s);
+	$s = preg_replace(';<b>(.*?)</b>;s', '\textbf{$1}', $s);
 	return $s;
 }
 
@@ -196,7 +200,7 @@ function korrFragmentText($s)
 	$s = removeHighlights($s);
 	$s = korrString($s);
 	$s = korrWikiFontStyles($s);
-	return ($s != '') ? $s : '---';
+	return ($s != '') ? $s : '--';
 }
 
 // Anmerkung eines Fragments korrigieren
@@ -217,7 +221,7 @@ function korrVersalien($s)
 // - durch -- ersetzen, wenn es passt
 function korrDash($s)
 {
-	return str_replace(' - ', ' --- ', $s);
+	return str_replace(' - ', ' -- ', $s);
 }
 
 // & durch \& ersetzen
