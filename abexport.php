@@ -1,6 +1,6 @@
 \documentclass[ngerman,final,fontsize=12pt,paper=a4,twoside,bibliography=totocnumbered,BCOR=8mm,draft=false]{scrartcl}
 
-\usepackage[T1]{fontenc}
+\usepackage[LGRx,T1]{fontenc}
 \usepackage[ngerman]{babel}
 \usepackage[utf8]{inputenx}
 \usepackage[sort&compress,square]{natbib}
@@ -14,6 +14,7 @@
 \usepackage{longtable}
 \usepackage{framed}
 \usepackage{textcomp}
+\usepackage{textgreek}
 
 \usepackage[charter,sfscaled]{mathdesign}
 
