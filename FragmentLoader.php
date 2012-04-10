@@ -4,16 +4,39 @@ require_once('WikiLoader.php');
 require_once('config.php');
 
 class FragmentLoader {
-	static private function processString($s)
+	static private function processString($s, $title)
 	{
-		$needle = 'val_\d+="([^"]*)"';
-		if (preg_match_all("/$needle/", $s, $match) >= 10) {
-			for($i = 0; $i < 10; $i++) {
-				$a[$i+1] = trim(html_entity_decode(html_entity_decode($match[1][$i], ENT_QUOTES, 'UTF-8'), ENT_QUOTES, 'UTF-8')); // Do this once and it doesn't work... hurray php?!
-			}
-			return $a;
-		} else
+		$source = WikiLoader::parseSource($s, 'SMWFragment');
+
+		if($source === false)
 			return false;
+
+		$renames = array(
+			'SeiteArbeit' => 'seite',
+			'ZeileArbeit' => 'zeilen',
+			'TextArbeit' => 'plagiat',
+			'SeiteQuelle' => 'seitefund',
+			'ZeileQuelle' => 'zeilenfund',
+			'TextQuelle' => 'orig',
+			'Anmerkungen' => 'anmerkung',
+			'Typus' => 'typus',
+			'Bearbeiter' => false,
+			'Sichter' => false,
+			'Kuerzel' => false,
+			'Quelle' => false,
+			'FragmentStatus' => false,
+		);
+
+		foreach($source as $key => $val) {
+			if(in_array($key, array_keys($renames))) {
+				if($val && $renames[$key])
+					$ret[$renames[$key]] = $val;
+			} else {
+				print "Fehler: Unbekannter Wert: $key.  Fragment: $title\n";
+			}
+		}
+		
+		return $ret;
 	}
 
 	static private function collectCategories($entry)
@@ -29,11 +52,10 @@ class FragmentLoader {
 
 	static private function processFrags($entries, &$ignored = array())
 	{
-		$titleBlacklist = array('Fragment 99999 11-22');
 		$fragments = array();
 		foreach($entries as $e) {
-			$a = self::processString($e['revisions'][0]['*']);
-			if($a !== false && $a[1] && !in_array($e['title'], $titleBlacklist)) {
+			$a = self::processString($e['revisions'][0]['*'], $e['title']);
+			if($a !== false) {
 				$a['wikiTitle'] = $e['title'];
 				$a['categories'] = self::collectCategories($e);
 				$fragments[] = $a;

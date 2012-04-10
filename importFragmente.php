@@ -85,19 +85,19 @@ foreach($cache['fragments'] as $f) {
 	$currentTypeCleaned = preg_replace('/^Kategorie:/', '', $currentTypeTitle);
 	$currentTypeCleaned = str_replace($typesFrom, $typesTo, $currentTypeCleaned);
 
-	if($f[7] != $currentTypeCleaned) {
+	if($f['typus'] != $currentTypeCleaned) {
 		print "%XXX: {$f['wikiTitle']}: Warnung, Diskrepanz zwischen Fragment und Kategorisierung! (".$f[7]." != ".$currentTypeCleaned.")\n";
 	}
 	$list[$i]['inFN'] = $sources[$currentSourceTitle]['InFN'];
 
 	$list[$i]['quelle'] = titleToKey($currentSourceTitle);
-	$list[$i]['seite'] = $f[1];
-	$list[$i]['zeilen'] = $f[2];
-	$list[$i]['plagiat'] = $f[3];
-	$list[$i]['seitefund'] = $f[4];
-	$list[$i]['zeilenfund'] = $f[5];
-	$list[$i]['orig'] = $f[6];
-	$list[$i]['anmerkung'] = $f[9];
+	$list[$i]['seite'] = $f['seite'];
+	$list[$i]['zeilen'] = $f['zeilen'];
+	$list[$i]['plagiat'] = $f['plagiat'];
+	$list[$i]['seitefund'] = $f['seitefund'];
+	$list[$i]['zeilenfund'] = isset($f['zeilenfund']) ? $f['zeilenfund'] : '---';
+	$list[$i]['orig'] = $f['orig'];
+	$list[$i]['anmerkung'] = $f['anmerkung'];
 	$list[$i]['kategorie'] = $currentTypeTitle;
 	$list[$i]['inLit'] = $sources[$currentSourceTitle]['InLit'];
 	$list[$i]['inFN'] = $sources[$currentSourceTitle]['InFN'];

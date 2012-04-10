@@ -190,14 +190,15 @@ class WikiLoader {
 
 	static public function parseSource($rawText, $prefix)
 	{
-		if(preg_match_all('/{{'.$prefix.'([^}]*)}}/s', $rawText, $matches) === 1) {
+		$rawText = html_entity_decode(html_entity_decode($rawText, ENT_QUOTES, 'UTF-8'), ENT_QUOTES, 'UTF-8'); // Two times better than once...
+		if(preg_match_all('/{{'.$prefix.'(.*?)}}/s', $rawText, $matches) === 1) {
 			$text = $matches[1][0];
 			preg_match_all('/|\s*(\w+)\s*=\s*([^|]+)/', $text, $matches);
 			$i = 0;
 			$source = array();
 			while(isset($matches[1][$i])) {
 				if($matches[1][$i]) {
-					$source[$matches[1][$i]] = trim(html_entity_decode($matches[2][$i], ENT_QUOTES, 'UTF-8'));
+					$source[$matches[1][$i]] = trim($matches[2][$i]);
 				}
 				$i++;
 			}

@@ -9,7 +9,7 @@
 # und einen gueltigen Wert haben, sonst funktioniert der AB-Generator nicht.
 #
 
-define('NAME_PREFIX', 'Lm');
+define('NAME_PREFIX', 'Aos');
 
 #
 # BERICHT_SEITE legt den Namen der Wiki Seite im Namensraum NAME_PREFIX fest,
@@ -64,8 +64,8 @@ $categoryWhitelist = array(
 # damit ein Fragment aufgelistet wird.
 #
 $categoryRequired = array(
-	'Kategorie:Fragment',
-	'Kategorie:Geprüft',
+	'Kategorie:SMWFragment',
+	'Kategorie:Gesichtet',
 );
 
 #
