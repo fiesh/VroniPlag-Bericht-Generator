@@ -88,7 +88,7 @@ foreach($cache['fragments'] as $f) {
 	$list[$i]['seitefund'] = $f['seitefund'];
 	$list[$i]['zeilenfund'] = isset($f['zeilenfund']) ? $f['zeilenfund'] : '---';
 	$list[$i]['orig'] = $f['orig'];
-	$list[$i]['anmerkung'] = $f['anmerkung'];
+	$list[$i]['anmerkung'] = isset($f['anmerkung']) ? $f['anmerkung'] : '';
 	$list[$i]['kategorie'] = $currentTypeTitle;
 	$list[$i]['inLit'] = $sources[$currentSourceTitle]['InLit'];
 	$list[$i]['inFN'] = $sources[$currentSourceTitle]['InFN'];
