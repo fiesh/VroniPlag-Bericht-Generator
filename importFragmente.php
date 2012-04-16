@@ -14,9 +14,6 @@ $cache = unserialize(file_get_contents('cache'));
 foreach($cache['ignored']['fragments'] as $title => $reason) {
 	print "%XXX: Ignoriere Fragment: $title: $reason\n";
 }
-foreach($cache['ignored']['fragmenttypes'] as $title) {
-	print "%XXX: Ignoriere Plagiatskategorie: $title\n";
-}
 foreach($cache['ignored']['sources'] as $title) {
 	print "%XXX: Ignoriere Quelle: $title\n";
 }
@@ -28,38 +25,32 @@ foreach($cache['sources'] as $source) {
 		$source['InLit'] = 'nein';
 	if(!isset($source['InFN']))
 		$source['InFN'] = 'nein';
-	$sources[$source['title']] = $source;
+	$sources['Kategorie:'.$source['title']] = $source;
 }
-
-# Liste der Plagiatskategorien holen
-$fragtypes = array();
-foreach($cache['fragmenttypes'] as $fragtype) {
-	$fragtypes[$fragtype['title']] = $fragtype;
-}
-
 
 $list = array();
 $fragmentTypeUsed = array();
 $i = 0;
 foreach($cache['fragments'] as $f) {
 	$currentSources = array_values(array_intersect($f['categories'], array_keys($sources)));
-	$currentTypes = array_values(array_intersect($f['categories'], array_keys($fragtypes)));
+	$currentTypes = array_values(array_intersect($f['categories'], $categoryWhitelist));
+
+	if(empty($currentTypes)) {
+		print "%XXX: Ignoriere {$f['wikiTitle']}: Kategorie nicht in Whitelist\n";
+		continue; // Silently ignore everything that does not match whitelist
+	}
 
 	$z = array_values(array_intersect($f['categories'], $categoryBlacklist));
 	if(!empty($z)) {
 		print "%Ignoriere {$f['wikiTitle']}: Kategorie in Blacklist: $z[0]\n";
 		continue;
 	}
+
 	foreach($categoryRequired as $req) {
 		if(!in_array($req, $f['categories'])) {
 			print "%Ignoriere {$f['wikiTitle']}: Kategorie $req nicht gesetzt\n";
 			continue 2; // Silently ignore everything that does not have everythign from $categoryRequired set
 		}
-	}
-	$z = array_values(array_intersect($f['categories'], $categoryWhitelist));
-	if(empty($z)) {
-		print "%XXX: Ignoriere {$f['wikiTitle']}: Kategorie nicht in Whitelist\n";
-		continue; // Silently ignore everything that does not match whitelist
 	}
 
 	if(empty($currentSources)) {
@@ -112,7 +103,7 @@ foreach($cache['fragments'] as $f) {
 array_multisort($sort, $list);
 
 if(SORT_BY_CATEGORY) {
-	foreach($fragtypes as $fragtypeTitle => $fragtype) {
+	foreach($categoryWhitelist as $fragtypeTitle => $fragtype) {
 		$found = false;
 		foreach($list as $l) {
 			if($l['kategorie'] === $fragtypeTitle) {

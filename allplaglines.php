@@ -2,35 +2,6 @@
 
 require_once('WikiLoader.php');
 
-function getSourceTypes($sourceTitles) {
-	$sourceTypesTitles = WikiLoader::getCategoryMembersTitles('Kategorie:Art der Quelle');
-	$sourceTypes = array();
-	foreach(WikiLoader::getEntriesByTitles($sourceTitles) as $e) {
-		if(!isset($e['categories'])) continue;
-		foreach($e['categories'] as $c) {
-			$title = $c['title'];
-			if(in_array($title, $sourceTypesTitles)) {
-				if(!isset($sourceTypes[$title]))
-					$sourceTypes[$title] = array();
-				$sourceTypes[$title][] = $e['title'];
-			}
-		}
-	}
-	ksort($sourceTypes);
-	return $sourceTypes;
-}
-
-function invertSourceTypes($sourceTypes) {
-	$inv = array();
-	foreach($sourceTypes as $t => $arr) {
-		foreach($arr as $s) {
-			$inv[$s][] = $t;
-		}
-	}
-	ksort($inv);
-	return $inv;
-}
-
 function getTotalLines($fragments) {
 	uksort($fragments, 'strnatcmp');
 
@@ -72,9 +43,6 @@ foreach($cache['sources'] as $source) {
 	$sources[$source['title']] = $source;
 }
 
-$sourceTypes = getSourceTypes(array_keys($sources));
-$invSourceTypes = invertSourceTypes($sourceTypes);
-
 $frags = array();
 $fragsInCats = array();
 foreach($cache['fragments'] as $f) {
@@ -94,9 +62,6 @@ foreach($cache['fragments'] as $f) {
 		print "Keine Quelle gefunden: $title\n";
 	} else {
 		$fragsInCats[$found][$title] = $f;
-		if(isset($invSourceTypes[$found]))
-			foreach($invSourceTypes[$found] as $t)
-				$fragsInCats[$t][$title] = $f;
 	}
 }
 

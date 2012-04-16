@@ -85,6 +85,7 @@ function renameAndFix($source)
 		'InLit' => false, // nicht uebernehmen
 		'InFN' => false, // nicht uebernehmen
 		'title' => false, // Wikititel nicht uebernehmen
+		'Kuerzel' => false, // Kuerzel irrelevant
 	);
 
 	foreach($source as $key => $val) {

@@ -26,9 +26,11 @@ class WikiLoader {
 
 	// Returns a list of category members in unserialized format.
 	// Gracefully resumes the API query if the result limit is exceeded.
-	static private function queryCategoryMembers($category)
+	static private function queryCategoryMembers($category, $namespace = false)
 	{
 		$url = self::API.'?action=query&list=categorymembers&cmtitle='.urlencode($category).'&format=php&cmlimit=500';
+		if($namespace !== false)
+			$url .= '&cmnamespace='.urlencode($namespace);
 		$s = unserialize(file_get_contents($url));
 
 		while(isset($s['query-continue'])) {
@@ -83,10 +85,15 @@ class WikiLoader {
 	}
 
 	// Returns a list of page IDs of category members.
-	static public function getCategoryMembers($category)
+	static public function getCategoryMembers($category, $namespace = false)
 	{
-		$s = self::queryCategoryMembers($category);
+		$s = self::queryCategoryMembers($category, $namespace);
 		$pageids = array();
+		if(!isset($s['query']['categorymembers'])) {
+			echo "getCategoryMembers(): Error, queryCategoryMembers($category, $namespace) returned:\n";
+			var_dump($s);
+			exit(1);
+		}
 		foreach($s['query']['categorymembers'] as $member) {
 			$pageids[] = $member['pageid'];
 		}
@@ -94,9 +101,9 @@ class WikiLoader {
 	}
 
 	// Returns a list of page titles of category members.
-	static public function getCategoryMembersTitles($category)
+	static public function getCategoryMembersTitles($category, $namespace = false)
 	{
-		$s = self::queryCategoryMembers($category);
+		$s = self::queryCategoryMembers($category, $namespace);
 		$titles = array();
 		foreach($s['query']['categorymembers'] as $member) {
 			$titles[] = $member['title'];

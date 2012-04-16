@@ -3,17 +3,13 @@
 #
 # Beschreibung des Cache-Formats:
 #
-# Der Cache ist ein assoziatives Array mit sechs Eintraegen.
+# Der Cache ist ein assoziatives Array.
 # In der Datei 'cache' liegt es in serialisiertes Form vor.
 #
-# Die sechs Eintraege sind:
+# Die Eintraege sind:
 #
 #   $cache['fragments'] =
 #     Liste aller Fragmente, direkt von FragmentLoader::getFragments().
-#
-#   $cache['fragmenttypes'] =
-#     Liste aller Plagiatskategorien (in Kategorie:PlagiatsKategorien),
-#     direkt von FragmentLoader::getFragmentTypes().
 #
 #   $cache['sources'] =
 #     Liste aller Quellen (mit Vorlage:Quelle). Jede Quelle ist ein
@@ -27,7 +23,6 @@
 #   $cache['ignored'] =
 #     Assoziatives Array:
 #       $cache['ignored']['fragments'] = Liste ignorierter Fragmente
-#       $cache['ignored']['fragmenttypes'] = Liste ign. Plagiatskategorien
 #       $cache['ignored']['sources'] = Liste ignorierter Quellen
 #
 #   $cache['timestamp'] =
@@ -48,12 +43,6 @@ $ignoredFragments = array();
 $cache['fragments'] = FragmentLoader::getFragments($ignoredFragments);
 print "fertig!\n";
 
-# Plagiatskategorien laden
-print "Lade Plagiatskategorien... "; flush();
-$ignoredFragmentTypes = array();
-$cache['fragmenttypes'] = FragmentLoader::getFragmentTypes($ignoredFragmentTypes);
-print "fertig!\n";
-
 # Quellen laden
 print "Lade Quellen... "; flush();
 $ignoredSources = array();
@@ -68,7 +57,6 @@ print "fertig!\n";
 
 # Ignorierte Eintraege speichern
 $cache['ignored']['fragments'] = $ignoredFragments;
-$cache['ignored']['fragmenttypes'] = $ignoredFragmentTypes;
 $cache['ignored']['sources'] = $ignoredSources;
 
 # timestamp setzen
