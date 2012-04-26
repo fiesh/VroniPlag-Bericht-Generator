@@ -34,6 +34,8 @@ function splitBeteiligte($peopleString)
 
 function renameAndFix($source)
 {
+	global $noValues;
+
 	// bei inkompatiblen Eintraegen warnen
 	$categoryname = $source['title'];
 	if(!isset($source['Titel']))
@@ -116,9 +118,9 @@ function renameAndFix($source)
 	}
 
 	// inLit/inFN einbauen
-	if(isset($source['InLit']) && $source['InLit'] === 'ja') {
+	if(!isset($source['InLit']) || !in_array($source['InLit'], $noValues)) {
 		$ret['inlit'] = 'Angabe im Literaturverzeichnis.';
-	} else if(isset($source['InFN']) && $source['InFN'] === 'ja') {
+	} else if(!isset($source['InFN']) || !in_array($source['InFN'], $noValues)) {
 		$ret['inlit'] = 'Angabe in Fu\ss{}noten.';
 	} else {
 		$ret['inlit'] = 'Nicht angegeben.';

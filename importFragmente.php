@@ -124,6 +124,8 @@ if(SORT_BY_CATEGORY) {
 
 function print_fragments($list, $fragtypeTitle)
 {
+	global $noValues;
+
 	foreach($list as $l) {
 		if($fragtypeTitle !== FALSE && $l['kategorie'] !== $fragtypeTitle)
 			continue;
@@ -144,9 +146,9 @@ function print_fragments($list, $fragtypeTitle)
 			$cite = '\cite';
 		}
 
-		if($l['inLit'] === 'ja') {
+		if(!in_array($l['inLit'], $noValues)) {
 			$citedInDiss = '';
-		} else if($l['inFN'] === 'ja') {
+		} else if(!in_array($l['inFN'], $noValues)) {
 			$citedInDiss = ' (Nur in Fu\ss{}note, aber \emph{nicht} im Literaturverzeichnis angef\"uhrt!)';
 		} else {
 			$citedInDiss = ' (\emph{Weder} in Fu\ss{}note noch im Literaturverzeichnis angef\"uhrt!)';

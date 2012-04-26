@@ -9,7 +9,7 @@
 # und einen gueltigen Wert haben, sonst funktioniert der AB-Generator nicht.
 #
 
-define('NAME_PREFIX', 'Aos');
+define('NAME_PREFIX', 'Nm');
 
 #
 # BERICHT_SEITE legt den Namen der Wiki Seite im Namensraum NAME_PREFIX fest,
@@ -66,6 +66,19 @@ $categoryWhitelist = array(
 $categoryRequired = array(
 	'Kategorie:SMWFragment',
 	'Kategorie:Gesichtet',
+);
+
+#
+# Werte die als "nein" interpretiert werden.
+#
+$noValues = array(
+	'nein',
+	'Nein',
+	'no',
+	'No',
+	'0',
+	'false',
+	'False',
 );
 
 #
