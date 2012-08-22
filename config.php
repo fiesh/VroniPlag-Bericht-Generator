@@ -9,13 +9,13 @@
 # und einen gueltigen Wert haben, sonst funktioniert der AB-Generator nicht.
 #
 
-define('NAME_PREFIX', 'Nm');
+define('NAME_PREFIX', 'Dd');
 
 #
 # BERICHT_SEITE legt den Namen der Wiki Seite im Namensraum NAME_PREFIX fest,
 # aus der der Bericht gebaut werden soll.
 #
-define('BERICHT_SEITE', 'Bericht/Entwurf');
+define('BERICHT_SEITE', 'Benutzer:WiseWoman/Dd/Bericht/Entwurf');
 
 #
 # Falls noch kein Bericht angelegt wurde, wird folgendes generisches layout verwendet

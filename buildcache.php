@@ -51,7 +51,7 @@ print "fertig!\n";
 
 # Entwurf laden
 print "Lade Entwurf... "; flush();
-if(($cache['static'] = WikiLoader::getRawTextByTitle(NAME_PREFIX.'/'.BERICHT_SEITE)) === false)
+if(($cache['static'] = WikiLoader::getRawTextByTitle(BERICHT_SEITE)) === false)
 	$cache['static'] = BLANKBERICHT;
 print "fertig!\n";
 
