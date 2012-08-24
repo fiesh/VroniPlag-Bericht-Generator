@@ -25,7 +25,8 @@ class FragmentLoader {
 			'Kuerzel' => false,
 			'Quelle' => false,
 			'FragmentStatus' => false,
-			'Markierungslaufweit' => false,
+			'Markierungslaufweite' => false,
+			'QuelleAlt' => false,
 		);
 
 		foreach($source as $key => $val) {
