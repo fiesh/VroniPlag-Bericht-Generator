@@ -55,6 +55,7 @@ $categoryWhitelist = array(
 	'Kategorie:AlibiFußNote',
 	'Kategorie:BauernOpfer',
 	'Kategorie:VerschärftesBauernopfer',
+	'Kategorie:VerschärftesBauernOpfer',
 	'Kategorie:HalbsatzFlickerei',
 	'Kategorie:ShakeAndPaste',
 );
