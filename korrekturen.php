@@ -36,7 +36,8 @@ function korrStringWiki($s, $doTrim=true)
 			'&',
 			'#',
 			'%',
-			'',
+			'
+',
 			'_',
 			'^',
 			'´',
@@ -59,7 +60,7 @@ function korrStringWiki($s, $doTrim=true)
 			'\&',
 			'\#',
 			'\%',
-			'',
+			' ', // double whitespaces are ignored by LaTeX
 			'\_',
 			'\^',
 			'\'',
