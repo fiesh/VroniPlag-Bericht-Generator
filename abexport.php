@@ -9,6 +9,7 @@
 \usepackage[draft=false,final,plainpages=false,pdftex]{hyperref}
 \usepackage{eso-pic}
 \usepackage{graphicx}
+\usepackage{color}
 \usepackage{xcolor}
 \usepackage{pdflscape}
 \usepackage{longtable}
@@ -76,7 +77,19 @@ if($abEnableLinkColors === 'yes') {
 }
 
 \definecolor{shadecolor}{rgb}{0.95,0.95,0.95} 
+<?php
 
+require_once('TextMarker.php');
+
+foreach (TextMarker::getTextColours() as $colourName => $colourValues) {
+
+?>
+\definecolor{<?= $colourName ?>}{RGB}{<?= $colourValues[0] ?>,<?= $colourValues[1] ?>,<?= $colourValues[2] ?>}
+<?php
+
+}
+
+?>
 \newenvironment{fragment}
 	{\begin{snugshade}}
 	{\end{snugshade}

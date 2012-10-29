@@ -137,6 +137,10 @@ function print_fragments($list, $fragtypeTitle)
 		$l['orig'] = korrFragmentText($l['orig']);
 		$l['anmerkung'] = korrFragmentAnmerkung($l['anmerkung']);
 
+		require_once('TextMarker.php');
+
+		TextMarker::markDuplicates($l['orig'], $l['plagiat']);
+
 		if($l['seitefund']) {
 			if($l['zeilenfund'])
 				$cite = '\cite[S.~'.$l['seitefund'].' Z.~'.$l['zeilenfund'].']';
@@ -154,7 +158,7 @@ function print_fragments($list, $fragtypeTitle)
 			$citedInDiss = ' (\emph{Weder} in Fu\ss{}note noch im Literaturverzeichnis angef\"uhrt!)';
 		}
 
-		print '\phantomsection{}'."\n";
+/*		print '\phantomsection{}'."\n";
 		print '\belowpdfbookmark{Fragment '.$l['seite'].' '.$l['zeilen'].'}{'.$l['wikiTitle'].'}'."\n";
 		print '\hypertarget{'.titleToKey($l['wikiTitle']).'}{}'."\n";
 
@@ -171,7 +175,41 @@ function print_fragments($list, $fragtypeTitle)
 			print $l['anmerkung']."\n";
 			print '\end{fragmentpart}'."\n";
 		}
-		print '\end{fragment}'."\n";
+		print '\end{fragment}'."\n";	*/
+
+		print '\newline' . "\n";
+		print 'Seite ' . $l['seite'] . ' Zeilen ' . $l['zeilen'] . ': ' . $l['wikiTitle'] . "\n";
+		print '\newline' . "\n";
+		print '\newline' . "\n";
+
+		print '\begin{tabular}{p{7cm}@{\hspace{1cm}}p{7cm}}';
+
+		$k = str_replace('Kategorie:', '', $l['kategorie']);
+		print '\begin{fragmentpart}{Dissertation S.~'.$l['seite'].' Z.~'.$l['zeilen'].(SORT_BY_CATEGORY ? '}' : ' ('.$k.')}')."\n";
+		print '\end{fragmentpart}'."\n";
+
+		print '&';
+
+		print '\begin{fragmentpart}{Original '.$cite.'{'.$l['quelle'].'}'.$citedInDiss.'}'."\n";
+		print '\end{fragmentpart}'."\n";
+
+		print '\\\\';
+
+		print '\enquote{'.$l['plagiat'].'}'."\n";
+		print '&';
+		print '\enquote{'.$l['orig'].'}'."\n";
+
+		print '\\\\';
+
+		print '\end{tabular} \newline';
+		
+		if(!empty($l['anmerkung'])) {
+			print '\newline' . "\n";
+			print '\newline' . "\n";
+			print 'Anmerkungen:' . "\n";
+			print '\newline' . "\n";
+			print $l['anmerkung'] . ' \newline \newline \newline' . "\n";
+		}
 	}
 }
 
