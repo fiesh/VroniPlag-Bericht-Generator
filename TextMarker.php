@@ -5,6 +5,8 @@ require_once('Tokenizer.php');
 
 class TextMarker {
 
+    private static $counter = 0 ;
+
 	private static $colour_index;
 
 	private static $shuffle_colours;
@@ -42,7 +44,10 @@ class TextMarker {
 
 	public static function markDuplicates(&$original, &$plagiarism) {
 
-		self::shuffleColours();
+        if (self::$counter < 2) {
+            self::$counter++;
+
+        self::shuffleColours();
 
 		$original_tokens = Tokenizer::tokenize($original);
 		$plagiarism_tokens = Tokenizer::tokenize($plagiarism);
@@ -249,5 +254,6 @@ class TextMarker {
 		$original = $original_tokens->asString(0, count($original_tokens));
 		$plagiarism = $plagiarism_tokens->asString(0, count($plagiarism_tokens));
 	}
+    }
 
 }
