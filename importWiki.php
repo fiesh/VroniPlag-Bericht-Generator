@@ -30,6 +30,22 @@ $content = preg_replace('/.*BEGIN_BERICHT/s', '', $content);
 // Kategorien am Ende entfernen
 $content = preg_replace('/\[\[Kategorie:[^]|]*\]\]/', '', $content);
 
+preg_match('/{\|[^}]*\|}/', $content, $tables, PREG_OFFSET_CAPTURE);
+
+require_once('Table.php');
+
+for ($i = 0; $i < count($tables); $i++) {
+    $tables[$i] = new Table($tables[$i][0], $tables[$i][1]);
+}
+
+$offset = 0;
+foreach ($tables as $table) {
+	$replacement = $table->asLatexSyntax();
+	$start = $table->getWikiaPosition() + $offset;
+	$length = $table->getWikiaLength();
+	$content = substr_replace($content, $replacement, $start, $length);
+	$offset += strlen($replacement) - $length;
+}
 
 // references
 $content = korrStringWithLinks($content, true, STUFFINTOFOOTNOTES, false);
