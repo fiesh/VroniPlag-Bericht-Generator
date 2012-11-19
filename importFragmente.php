@@ -143,9 +143,9 @@ function print_fragments($list, $fragtypeTitle)
 
 		if($l['seitefund']) {
 			if($l['zeilenfund'])
-				$cite = '\cite[S.~'.$l['seitefund'].' Z.~'.$l['zeilenfund'].']';
+				$cite = '\cite[Seite: '.$l['seitefund'].' Zeilen: '.$l['zeilenfund'].']';
 			else
-				$cite = '\cite[S.~'.$l['seitefund'].']';
+				$cite = '\cite[Seite: '.$l['seitefund'].']';
 		} else {
 			$cite = '\cite';
 		}
@@ -177,21 +177,23 @@ function print_fragments($list, $fragtypeTitle)
 		}
 		print '\end{fragment}'."\n";	*/
 
-		print '\newline' . "\n";
-		print 'Seite ' . $l['seite'] . ' Zeilen ' . $l['zeilen'] . ': ' . $l['wikiTitle'] . "\n";
+		print '\newpage' . "\n";
+		//print 'Seite ' . $l['seite'] . ' Zeilen ' . $l['zeilen'] . ': ' . $l['wikiTitle'] . "\n";
+		print $l['wikiTitle'] . "\n";
 		print '\newline' . "\n";
 		print '\newline' . "\n";
 
 		print '\begin{tabular}{p{7cm}@{\hspace{1cm}}p{7cm}}';
 
 		$k = str_replace('Kategorie:', '', $l['kategorie']);
-		print '\begin{fragmentpart}{Dissertation S.~'.$l['seite'].' Z.~'.$l['zeilen'].(SORT_BY_CATEGORY ? '}' : ' ('.$k.')}')."\n";
-		print '\end{fragmentpart}'."\n";
+		print '\textbf{Untersuchte Arbeit:}' . "\n";
+		print '\newline' . "\n";
+		print '\textbf{Seite: '.$l['seite'].' Zeilen: '.$l['zeilen'].(SORT_BY_CATEGORY ? '' : ' ('.$k.')'). '}' . "\n";
+		print '\newline' . "\n";
 
 		print '&';
 
-		print '\begin{fragmentpart}{Original '.$cite.'{'.$l['quelle'].'}'.$citedInDiss.'}'."\n";
-		print '\end{fragmentpart}'."\n";
+		print '\textbf{Quelle: '.$cite.'{'.$l['quelle'].'}'.$citedInDiss . '}' . "\n";
 
 		print '\\\\';
 
@@ -206,7 +208,8 @@ function print_fragments($list, $fragtypeTitle)
 		if(!empty($l['anmerkung'])) {
 			print '\newline' . "\n";
 			print '\newline' . "\n";
-			print 'Anmerkungen:' . "\n";
+			print '\textbf{Anmerkungen:}' . "\n";
+			print '\newline' . "\n";
 			print '\newline' . "\n";
 			print $l['anmerkung'] . ' \newline \newline \newline' . "\n";
 		}
