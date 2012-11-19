@@ -91,4 +91,10 @@ foreach($arr as $a) {
 
 $content = implode("\n", $new);
 
+// display URL's in fixed-width fonts
+$content = preg_replace('/\\\url{(.*?)}/s', '\texttt{\url{$1}}', $content);
+
+// display Links as footnotes
+$content = preg_replace('/\\\href{(.*?)}{(.*?)}/s', '$2\footnote{\url{$1}}', $content);
+
 print($content);
