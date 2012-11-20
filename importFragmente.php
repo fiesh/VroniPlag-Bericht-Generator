@@ -188,7 +188,7 @@ function print_fragments($list, $fragtypeTitle)
 		$k = str_replace('Kategorie:', '', $l['kategorie']);
 		print '\textbf{Untersuchte Arbeit:}' . "\n";
 		print '\newline' . "\n";
-		print '\textbf{Seite: '.$l['seite'].' Zeilen: '.$l['zeilen'].(SORT_BY_CATEGORY ? '' : ' ('.$k.')'). '}' . "\n";
+		print '\textbf{Seite: '.$l['seite'].' Zeilen: '.$l['zeilen'].'\newline'.(SORT_BY_CATEGORY ? '' : ' ('.$k.')'). '}' . "\n";
 		print '\newline' . "\n";
 
 		print '&';
