@@ -177,41 +177,37 @@ function print_fragments($list, $fragtypeTitle)
 		}
 		print '\end{fragment}'."\n";	*/
 
-		print '\newpage' . "\n";
+		//print '\newpage' . "\n";
 		//print 'Seite ' . $l['seite'] . ' Zeilen ' . $l['zeilen'] . ': ' . $l['wikiTitle'] . "\n";
+		print '\newline' . "\n";
+		print '\newline' . "\n";
 		print $l['wikiTitle'] . "\n";
 		print '\newline' . "\n";
 		print '\newline' . "\n";
 
 		print '\begin{tabular}{p{7cm}@{\hspace{1cm}}p{7cm}}';
-
 		$k = str_replace('Kategorie:', '', $l['kategorie']);
-		print '\textbf{Untersuchte Arbeit:}' . "\n";
-		print '\newline' . "\n";
-		print '\textbf{Seite: '.$l['seite'].' Zeilen: '.$l['zeilen'].'\newline'.(SORT_BY_CATEGORY ? '' : ' ('.$k.')'). '}' . "\n";
-		print '\newline' . "\n";
-
-		print '&';
-
+		print '\textbf{Untersuchte Arbeit: \newline Seite: '.$l['seite'].' Zeilen: '.$l['zeilen'].'\newline'.(SORT_BY_CATEGORY ? '' : ' ('.$k.')'). '}' . "\n";
+		print ' & ';
 		print '\textbf{Quelle: '.$cite.'{'.$l['quelle'].'}'.$citedInDiss . '}' . "\n";
+		print ' \\\\ ';
+		print '\end{tabular}';
 
-		print '\\\\';
+		// force a line break
+		print '\newline' . "\n";
 
-		print '\enquote{'.$l['plagiat'].'}'."\n";
-		print '&';
-		print '\enquote{'.$l['orig'].'}'."\n";
-
-		print '\\\\';
-
-		print '\end{tabular} \newline';
+		// print the plagiat and the original next to each other
+		print '\begin{Parallel}{7cm}{7cm}';
+		print '\ParallelLText{\enquote{'.$l['plagiat'].'}}'."\n";
+		print '\ParallelRText{\enquote{'.$l['orig'].'}}'."\n";
+		print '\end{Parallel}';
 		
 		if(!empty($l['anmerkung'])) {
-			print '\newline' . "\n";
 			print '\newline' . "\n";
 			print '\textbf{Anmerkungen:}' . "\n";
 			print '\newline' . "\n";
 			print '\newline' . "\n";
-			print $l['anmerkung'] . ' \newline \newline \newline' . "\n";
+			print $l['anmerkung'] . ' \newline \newline' . "\n";
 		}
 	}
 }

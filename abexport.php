@@ -24,6 +24,8 @@
 
 \usepackage{colortbl}
 
+\usepackage{pdfcolparallel}
+
 %\setparsizes{1em}{.5\baselineskip}{0pt plus 1fil}
 
 \author{VroniPlag} 
@@ -141,6 +143,7 @@ if($abLinks === 'color+underline') {
 <?php require_once('importWiki.php'); ?>
 
 \appendix
+\newpage
 \section{Textnachweise}
 
 <?php require_once('importFragmente.php'); ?>
