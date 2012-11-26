@@ -187,9 +187,9 @@ function print_fragments($list, $fragtypeTitle)
 
 		print '\begin{tabular}{p{7cm}@{\hspace{1cm}}p{7cm}}';
 		$k = str_replace('Kategorie:', '', $l['kategorie']);
-		print '\textbf{Untersuchte Arbeit: \newline Seite: '.$l['seite'].' Zeilen: '.$l['zeilen'].'\newline'.(SORT_BY_CATEGORY ? '' : ' ('.$k.')'). '}' . "\n";
+		print '\textbf{Untersuchte Arbeit: \newline Seite: '.$l['seite'].' Zeilen: '.$l['zeilen']. ' \newline ' .(SORT_BY_CATEGORY ? '' : ' ('.$k.')'). '}' . "\n";
 		print ' & ';
-		print '\textbf{Quelle: '.$cite.'{'.$l['quelle'].'}'.$citedInDiss . '}' . "\n";
+		print '\textbf{Quelle: \newline Seite: ' . $l['seitefund'] . ' Zeilen: ' . $l['zeilenfund'] . ' \newline \cite{'.$l['quelle'].'}'.$citedInDiss . '}' . "\n";
 		print ' \\\\ ';
 		print '\end{tabular}';
 
@@ -200,14 +200,18 @@ function print_fragments($list, $fragtypeTitle)
 		print '\begin{Parallel}{7cm}{7cm}';
 		print '\ParallelLText{\enquote{'.$l['plagiat'].'}}'."\n";
 		print '\ParallelRText{\enquote{'.$l['orig'].'}}'."\n";
-		print '\end{Parallel}';
+		print '\end{Parallel}' . "\n";
+
+		print '~\newline' . "\n";
+		print '\newline' . "\n";
 		
-		if(!empty($l['anmerkung'])) {
-			print '\newline' . "\n";
+		if (!empty($l['anmerkung'])) {
 			print '\textbf{Anmerkungen:}' . "\n";
 			print '\newline' . "\n";
 			print '\newline' . "\n";
-			print $l['anmerkung'] . ' \newline \newline' . "\n";
+			print $l['anmerkung'] . "\n";
+			print '\newline' . "\n";
+			print '\newline' . "\n";
 		}
 	}
 }
