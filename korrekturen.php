@@ -90,16 +90,17 @@ function korrStringWiki($s, $doTrim=true)
 function korrString($s, $doTrim=true)
 {
 	$result = '';
-	foreach (preg_split('/(\\\newline\s\\\begin{tabular}.*?\\\end{tabular})/s', $s, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE) as $part) {
-		if (preg_match('/\\\newline\s\\\begin{tabular}(.*?)\\\end{tabular}/s', $part, $match)) {
+	foreach (preg_split('/(\\\newline\s\\\begin{tabular}{[lr|]*}.*?\\\end{tabular})/s', $s, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE) as $part) {
+		if (preg_match('/(\\\newline\s\\\begin{tabular}{[lr|]*})(.*?)\\\end{tabular}/s', $part, $match)) {
 
-			$rows = preg_split('/\\\/', $match[1]);
+			$rows = preg_split('/\\\[^a-z]/', $match[2]);
 
 			/*	require_once('Logger.php');
 			Logger::dump($match[1]);
 			Logger::dump($rows);	*/
 
 			for ($i = 0; $i < count($rows); $i++) {
+
 				$columns = preg_split('/&/', $rows[$i]);
 				for ($j = 0; $j < count($columns); $j++) {			
 					$columns[$j] = preg_replace(
@@ -108,10 +109,11 @@ function korrString($s, $doTrim=true)
         				$columns[$j]
 					);
 				}
-				$rows[$i] = implode('&', $columns);
+
+				$rows[$i] = "\n" . '\hline' . "\n" . implode('&', $columns);
 			}
 			
-			$result .= '\newline \begin{tabular}' . implode('\\\\', $rows) . '\end{tabular}';
+			$result .= '\newline' . $match[1] . implode('\\\\', $rows) . "\n" . '\hline' . "\n" . '\end{tabular}';
 		}
 		else {
 			foreach (preg_split('/(<math>.*?<\/math>)/s', $part, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE) as $part) {

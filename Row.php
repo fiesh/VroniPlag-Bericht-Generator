@@ -29,11 +29,15 @@ class Row {
 				if (preg_match('/\|/', $columns[$i])) {
 					// e.g. "style="text-align:right;"|19"
 					$columns[$i] = substr($columns[$i], strpos($columns[$i], '|') + 1);
-				} 
+				}
 				$columns[$i] = korrString($columns[$i]);
 			}
 
-			$latexSyntax = implode(' & ', $columns) . ' \\\\ ';
+			for ($i = 0; $i < count($columns); $i++) {
+				$columns[$i] = ' \cellcolor{shadecolor} ' . $columns[$i];
+			}
+
+			$latexSyntax = implode(' & ', $columns) . ' \\ ' . "\n";
 		}
 		else if (preg_match('/\|(([^+]*?)\|\|)+/s', $wikiaSyntaxToParse)) {
 			$columns = preg_split('/\|\|/s', substr($wikiaSyntaxToParse, strpos($wikiaSyntaxToParse, '|') + 1));
@@ -42,7 +46,7 @@ class Row {
 				$columns[$i] = korrString($columns[$i]);
 			}
 
-			$latexSyntax = implode(' & ', $columns) . ' \\\\ ';
+			$latexSyntax = implode(' & ', $columns) . ' \\ ' . "\n";
 		}
 
 		/*	$latexSyntax = '';

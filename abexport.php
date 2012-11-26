@@ -22,6 +22,8 @@
 %\usepackage[spacing=true,tracking=true,kerning=true,babel]{microtype}
 \usepackage[spacing=true,kerning=true,babel]{microtype}
 
+\usepackage{colortbl}
+
 %\setparsizes{1em}{.5\baselineskip}{0pt plus 1fil}
 
 \author{VroniPlag} 

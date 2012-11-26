@@ -28,16 +28,18 @@ class Table {
 		$lastRows = substr($wikiaSyntaxToParse, strrpos($wikiaSyntaxToParse, '|-') + 2);
 		$lastRows = preg_split('/!/', substr($lastRows, strpos($lastRows, '!') + 1));
 
-		$latexSyntax = '\newline \begin{tabular}{ ';
+		$latexSyntax = '\newline \begin{tabular}{';
 
+		$columns = array();
 		for ($i = 0; $i < count($lastRows); $i++) {
 			if (preg_match('/text-align:right/', $lastRows[$i])) {
-				$latexSyntax .= 'r ';
+				$columns[] = 'r';
 			}
 			else {
-				$latexSyntax .= 'l ';
+				$columns[] = 'l';
 			}
 		}
+		$latexSyntax .= '|' . implode('|', $columns) . '|';
 
 		$latexSyntax .= '} ' . "\n";
 
