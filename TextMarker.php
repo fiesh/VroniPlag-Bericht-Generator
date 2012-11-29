@@ -5,8 +5,6 @@ require_once('Tokenizer.php');
 
 class TextMarker {
 
-    private static $counter = 0 ;
-
 	private static $colour_index;
 
 	private static $shuffle_colours;
@@ -44,37 +42,42 @@ class TextMarker {
 
 	public static function markDuplicates(&$original, &$plagiarism) {
 
-        if (self::$counter < 2) {
-            self::$counter++;
-
         self::shuffleColours();
 
-		$original_tokens = Tokenizer::tokenize($original);
+        $hits = array();
+
+        $original_tokens = Tokenizer::tokenize($original);
 		$plagiarism_tokens = Tokenizer::tokenize($plagiarism);
 
 		$minimum_number_of_similar_tokens = 4;
 
 		for ($original_index = 0; $original_index < count($original_tokens) - $minimum_number_of_similar_tokens; $original_index++) {
-            $original_length = 1;
+            $original_length = 0;
 			$new_original_text = '';
 			$new_original_text_length = 0;
 
 	        $plagiarism_index = 0;
-    	    $plagiarism_length = 1;
+    	    $plagiarism_length = 0;
 			$new_plagiarism_text = '';
             $new_plagiarism_text_length = 0;
 
             while ($original_index + $original_length < count($original_tokens)
             	&& $plagiarism_index + $plagiarism_length < count($plagiarism_tokens)) {
 
-            	$original_text = $new_original_text;
-            	$original_text_length = $new_original_text_length;
-            	$new_original_text = $original_tokens->asStringToCompare($original_index, $original_length);
+            	//$original_text = $new_original_text;
+                $original_text = '';
+                //$original_text_length = $new_original_text_length;
+                $original_text_length = 0;
+                //$new_original_text = $original_tokens->asStringToCompare($original_index, $original_length);
+                $new_original_text = $original_tokens[$original_index + $original_length]->asStringToCompare();
                 $new_original_text_length = strlen($new_original_text);
 
-                $plagiarism_text = $new_plagiarism_text;
-                $plagiarism_text_length = $new_plagiarism_text_length;
-                $new_plagiarism_text = $plagiarism_tokens->asStringToCompare($plagiarism_index, $plagiarism_length);
+                //$plagiarism_text = $new_plagiarism_text;
+                $plagiarism_text = '';
+                //$plagiarism_text_length = $new_plagiarism_text_length;
+                $plagiarism_text_length = 0;
+                //$new_plagiarism_text = $plagiarism_tokens->asStringToCompare($plagiarism_index, $plagiarism_length);
+                $new_plagiarism_text = $plagiarism_tokens[$plagiarism_index + $plagiarism_length]->asStringToCompare();
                 $new_plagiarism_text_length = strlen($new_plagiarism_text);
 
                 if ($new_original_text_length === $new_plagiarism_text_length
@@ -82,12 +85,10 @@ class TextMarker {
 
                     $original_length++;
                     $plagiarism_length++;
-                } else if ($new_original_text_length === $plagiarism_text_length
-                    && $new_original_text_length === similar_text($new_original_text, $plagiarism_text)) {
+                } else if ($new_original_text_length === 0) {
 
                     $original_length++;
-                } else if ($original_text_length === $new_plagiarism_text_length
-                    && $original_text_length === similar_text($original_text, $new_plagiarism_text)) {
+                } else if ($new_plagiarism_text_length === 0) {
 
                     $plagiarism_length++;
                 } else {
@@ -159,23 +160,30 @@ class TextMarker {
                         $plagiarism_tokens[$plagiarism_index] = new Token('\textcolor{' . $colour_name . '}{' . $plagiarism_tokens[$plagiarism_index]->asString());
                         $plagiarism_tokens[$plagiarism_index + $plagiarism_length - 2] = new Token($plagiarism_tokens[$plagiarism_index + $plagiarism_length - 2]->asString() . '}');
                        	
+                        $hits[$plagiarism_index] = $plagiarism_index + $plagiarism_length - 2;
+
                         $original_index += $original_length - 2;
-	                    $original_length = 1;
+	                    $original_length = 0;
 				        $new_original_text = '';
 				        $new_original_text_length = 0;
 
 		                $plagiarism_index++;
-	    	            $plagiarism_length = 1;
+	    	            $plagiarism_length = 0;
 					    $new_plagiarism_text = '';
 	            		$new_plagiarism_text_length = 0;
+
                         break;
+
                     }
-                    $original_length = 1;
+                    $original_length = 0;
 			        $new_original_text = '';
 			        $new_original_text_length = 0;
 
 	                $plagiarism_index++;
-    	            $plagiarism_length = 1;
+                    if (array_key_exists($plagiarism_index, $hits)) {
+                        $plagiarism_index = $hits[$plagiarism_index] + 1;
+                    }
+    	            $plagiarism_length = 0;
 				    $new_plagiarism_text = '';
             		$new_plagiarism_text_length = 0;
                	}
@@ -205,8 +213,8 @@ class TextMarker {
 	                if ($plagiarism_tokens[$tmp_plagiarism_index]->asStringToCompare() === '') {
 	                    $tmp_plagiarism_index++;
 	                    $tmp_plagiarism_length--;
-	                }
-	                else {
+	                } 
+                    else {
 	                    break;
 	                }
 	            }
@@ -253,7 +261,7 @@ class TextMarker {
 
 		$original = $original_tokens->asString(0, count($original_tokens));
 		$plagiarism = $plagiarism_tokens->asString(0, count($plagiarism_tokens));
-	}
+
     }
 
 }
