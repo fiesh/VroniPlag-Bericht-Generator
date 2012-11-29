@@ -137,11 +137,15 @@ function print_fragments($list, $fragtypeTitle)
 		$l['orig'] = korrFragmentText($l['orig']);
 		$l['anmerkung'] = korrFragmentAnmerkung($l['anmerkung']);
 
+		require_once('TextMarker.php');
+
+		TextMarker::markDuplicates($l['orig'], $l['plagiat']);
+
 		if($l['seitefund']) {
 			if($l['zeilenfund'])
-				$cite = '\cite[S.~'.$l['seitefund'].' Z.~'.$l['zeilenfund'].']';
+				$cite = '\cite[Seite: '.$l['seitefund'].' Zeilen: '.$l['zeilenfund'].']';
 			else
-				$cite = '\cite[S.~'.$l['seitefund'].']';
+				$cite = '\cite[Seite: '.$l['seitefund'].']';
 		} else {
 			$cite = '\cite';
 		}
@@ -154,7 +158,7 @@ function print_fragments($list, $fragtypeTitle)
 			$citedInDiss = ' (\emph{Weder} in Fu\ss{}note noch im Literaturverzeichnis angef\"uhrt!)';
 		}
 
-		print '\phantomsection{}'."\n";
+/*		print '\phantomsection{}'."\n";
 		print '\belowpdfbookmark{Fragment '.$l['seite'].' '.$l['zeilen'].'}{'.$l['wikiTitle'].'}'."\n";
 		print '\hypertarget{'.titleToKey($l['wikiTitle']).'}{}'."\n";
 
@@ -171,7 +175,44 @@ function print_fragments($list, $fragtypeTitle)
 			print $l['anmerkung']."\n";
 			print '\end{fragmentpart}'."\n";
 		}
-		print '\end{fragment}'."\n";
+		print '\end{fragment}'."\n";	*/
+
+		//print '\newpage' . "\n";
+		//print 'Seite ' . $l['seite'] . ' Zeilen ' . $l['zeilen'] . ': ' . $l['wikiTitle'] . "\n";
+		print '\newline' . "\n";
+		print '\newline' . "\n";
+		print $l['wikiTitle'] . "\n";
+		print '\newline' . "\n";
+		print '\newline' . "\n";
+
+		print '\begin{tabular}{p{7cm}@{\hspace{1cm}}p{7cm}}';
+		$k = str_replace('Kategorie:', '', $l['kategorie']);
+		print '\textbf{Untersuchte Arbeit: \newline Seite: '.$l['seite'].' Zeilen: '.$l['zeilen']. ' \newline ' .(SORT_BY_CATEGORY ? '' : ' ('.$k.')'). '}' . "\n";
+		print ' & ';
+		print '\textbf{Quelle: \newline Seite: ' . $l['seitefund'] . ' Zeilen: ' . $l['zeilenfund'] . ' \newline \cite{'.$l['quelle'].'}'.$citedInDiss . '}' . "\n";
+		print ' \\\\ ';
+		print '\end{tabular}';
+
+		// force a line break
+		print '\newline' . "\n";
+
+		// print the plagiat and the original next to each other
+		print '\begin{Parallel}{7cm}{7cm}';
+		print '\ParallelLText{\enquote{'.$l['plagiat'].'}}'."\n";
+		print '\ParallelRText{\enquote{'.$l['orig'].'}}'."\n";
+		print '\end{Parallel}' . "\n";
+
+		print '~\newline' . "\n";
+		print '\newline' . "\n";
+		
+		if (!empty($l['anmerkung'])) {
+			print '\textbf{Anmerkungen:}' . "\n";
+			print '\newline' . "\n";
+			print '\newline' . "\n";
+			print $l['anmerkung'] . "\n";
+			print '\newline' . "\n";
+			print '\newline' . "\n";
+		}
 	}
 }
 

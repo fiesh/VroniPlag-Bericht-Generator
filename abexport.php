@@ -9,6 +9,7 @@
 \usepackage[draft=false,final,plainpages=false,pdftex]{hyperref}
 \usepackage{eso-pic}
 \usepackage{graphicx}
+\usepackage{color}
 \usepackage{xcolor}
 \usepackage{pdflscape}
 \usepackage{longtable}
@@ -20,6 +21,10 @@
 
 %\usepackage[spacing=true,tracking=true,kerning=true,babel]{microtype}
 \usepackage[spacing=true,kerning=true,babel]{microtype}
+
+\usepackage{colortbl}
+
+\usepackage{pdfcolparallel}
 
 %\setparsizes{1em}{.5\baselineskip}{0pt plus 1fil}
 
@@ -76,7 +81,19 @@ if($abEnableLinkColors === 'yes') {
 }
 
 \definecolor{shadecolor}{rgb}{0.95,0.95,0.95} 
+<?php
 
+require_once('TextMarker.php');
+
+foreach (TextMarker::getTextColours() as $colourName => $colourValues) {
+
+?>
+\definecolor{<?= $colourName ?>}{RGB}{<?= $colourValues[0] ?>,<?= $colourValues[1] ?>,<?= $colourValues[2] ?>}
+<?php
+
+}
+
+?>
 \newenvironment{fragment}
 	{\begin{snugshade}}
 	{\end{snugshade}
@@ -126,6 +143,7 @@ if($abLinks === 'color+underline') {
 <?php require_once('importWiki.php'); ?>
 
 \appendix
+\newpage
 \section{Textnachweise}
 
 <?php require_once('importFragmente.php'); ?>
