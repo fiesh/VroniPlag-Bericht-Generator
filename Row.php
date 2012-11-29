@@ -14,7 +14,7 @@ class Row {
 
 		if (preg_match('/\|\+((.*?)!)+/s', $wikiaSyntaxToParse)) {
 			$start = strpos($wikiaSyntaxToParse, '|+') + 2;
-			$length = $tart + strpos($wikiaSyntaxToParse, '!') + 1;
+			$length = $start + strpos($wikiaSyntaxToParse, '!') + 1;
 			$caption = substr($wikiaSyntaxToParse, $start, $length);
 			// TODO handle caption
 			require_once('Logger.php');

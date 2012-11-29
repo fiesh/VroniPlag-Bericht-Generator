@@ -11,7 +11,7 @@ class Tokenizer {
 		for ($i = 0; $i < count($tokens); $i++) {
 
 			// current token start with "[" and next token ends with "]"
-			if (preg_match('/^\$\[\$/', $tokens[$i]) && preg_match('/\$\]\$$/', $tokens[$i + 1])) {
+			if (isset($tokens[$i + 1]) && preg_match('/^\$\[\$/', $tokens[$i]) && preg_match('/\$\]\$$/', $tokens[$i + 1])) {
 				$new_tokens[] = $tokens[$i] . ' ' . $tokens[$i + 1];
 
 				// skip next token
